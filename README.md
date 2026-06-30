@@ -4,45 +4,100 @@ Conseal Trust Console is a state-of-the-art, premium PII redaction and confidenc
 
 ---
 
-## 🚀 Key Features
+## 🚀 Architectural Modules & Details
 
-* **Live Gemini Explanations**: Uses `gemini-2.5-flash` to generate real-time, context-grounded reasoning for every redaction decision.
-* **Confidence Distribution Analytics**: Computes document-wide confidence statistics (mean, median, standard deviation) and draws custom column bar charts.
-* **Independent Side-by-Side Scrolling**: Columns scroll independently (left document viewer, right audit logs and explanation panel) for an optimal auditing experience.
-* **Draggable Panel Resizing**: Custom drag handles let you adjust panel widths dynamically.
-* **Robust Masking Engine**: Built-in regex rules with overlapping interval scheduling to accurately detect and redact Email, Phone, SSN, Passport Numbers, TIN/EINs, and Financial Accounts.
-* **Custom Visible Scrollbars**: Styled with a minimal grab area and a brand-colored teal hover highlight.
-* **100% Client-Server Navigation**: Broken race conditions in routing to allow seamless Home page navigation.
+### 1. **Ingestion & Intake Module (`server/src/routes/api.ts` & `client/src/pages/LandingPage.tsx`)**
+* **Responsibility**: Manages the loading and uploading of raw text, sample files, and `.txt` files.
+* **Details**: 
+  * Accepts file uploads via `multer` (in-memory buffer parsing) or direct text copy-pasting.
+  * Validates inputs to ensure they are non-empty and under the 200KB limit to optimize latency.
+  * Initiates the detection process and returns a standardized `PIIDocumentResponse` to the client.
+
+### 2. **PII Detection Engine (`server/src/services/MockDetectionService.ts`)**
+* **Responsibility**: Identifies sensitive strings inside the raw ingested document and classifies them into standard categories.
+* **Detections Supported**: 
+  * `EMAIL`: Standard email formats.
+  * `SSN_OR_GOVT_ID`: US Social Security Numbers, Alphanumeric Passport Numbers (e.g. `XK9087345`), and Tax IDs/EINs (`XX-XXXXXXX`).
+  * `PHONE`: US phone number structures.
+  * `FINANCIAL_ACCOUNT`: Bank Routing Numbers (9 digits) and general account sequences (6 to 18 digits).
+* **Core Logic**: Runs concurrent regex evaluations, assigns confidence scores, and executes a **greedy interval scheduling filter** to eliminate overlapping or duplicate span detections.
+
+### 3. **AI Reasoning Assistant (`server/src/services/GeminiAnswerService.ts` & `client/src/components/explanation/AskWhyBox.tsx`)**
+* **Responsibility**: Powers the "Ask Conseal AI" side-pane conversation box.
+* **Details**:
+  * Integrates Google Gemini API (`gemini-2.5-flash`) to answer compliance questions.
+  * Dynamically packages surrounding text, confidence score distributions, PII categories, and regulatory risks into a structured prompt.
+  * Tracks query counts, input/output tokens, and maps grounding signals (e.g. confidence, signals, risk notes).
+
+### 4. **Split-Pane Layout & Resizing Module (`client/src/components/explanation/ExplanationPanel.tsx` & `client/src/components/review/AuditLogSidebar.tsx`)**
+* **Responsibility**: Provides a responsive, side-by-side workspace split.
+* **Details**:
+  * Uses inline flex items instead of floating elements so that the Document Viewer (left) and Sidebars (right) sit side-by-side naturally.
+  * Features custom draggable mouse handlers that sync width changes to the Zustand store.
+  * Binds column heights to the viewport with `overflow-y: auto`, enabling independent scrolling.
 
 ---
 
-## 🛠️ Tech Stack
+## ⚙️ Setup & Installation Guide
 
-* **Frontend**: React, Vite, Zustand (State Management), Lucide React (Icons), TailwindCSS.
-* **Backend**: Node.js, Express, Multer, tsx (watcher).
-* **AI Engine**: Google Gemini API (`gemini-2.5-flash`).
+Follow these steps to configure your API credentials and run the project locally:
 
----
+### 1. Prerequisites
+Ensure you have the following installed on your machine:
+* **Node.js** (v18.x or higher)
+* **npm** (v9.x or higher)
+* A Google AI Studio API Key (for Gemini)
 
-## 📦 Project Structure
-
+### 2. Configure Environment Variables
+Create a `.env` file in the `server/` directory:
+```bash
+# Navigate to server/ and create .env
+PORT=3001
+ANSWER_MODE=live
+GEMINI_API_KEY=your_google_gemini_api_key_here
+GEMINI_MODEL=gemini-2.5-flash
 ```
-├── client/                 # React frontend application
-│   ├── src/
-│   │   ├── components/     # UI components (layout, review, explanation)
-│   │   ├── pages/          # Core pages (LandingPage, ReviewPage)
-│   │   ├── store/          # Zustand state store
-│   │   └── lib/            # Types, utilities, and API wrappers
-├── server/                 # Express backend application
-│   ├── src/
-│   │   ├── routes/         # Express router and endpoints
-│   │   ├── services/       # Mock and Gemini services
-│   │   └── utils/          # Analysis and helper utilities
-├── docs/                   # System design, documentation, and writeups
+
+### 3. Install Dependencies
+Install all package dependencies in the root workspace directory:
+```bash
+# From the project root
+npm install
 ```
+
+### 4. Run in Development Mode
+Launch both the frontend client and backend server concurrently:
+```bash
+npm run dev
+```
+* **Frontend Application**: `http://localhost:5173/`
+* **Backend API**: `http://localhost:3001/`
 
 ---
 
-## ⚙️ Setup & Installation
+## 🛡️ Solved Edge Cases & Heuristics
 
-Please refer to the detailed [System Writeup & Setup Guide](file:///docs/system_writeup.md) inside the `docs/` folder for backend `.env` configuration and launch instructions.
+During the integration phase, several critical layout, navigation, and logic edge cases were solved:
+
+### 1. Gemini Answer Truncation (Safety & Thinking Budget)
+* **Problem**: By default, newer Gemini 2.5 models generate internal reasoning/thinking tokens. These tokens count toward the `maxOutputTokens` limit. In a setup with `maxOutputTokens: 150`, the thinking process consumed almost the entire budget, leaving only 4-5 words for the actual output, resulting in premature truncation (`finishReason: MAX_TOKENS`).
+* **Solution**: Explicitly disabled the thinking budget in the model request (`thinkingConfig: { thinkingBudget: 0 }`) and increased the `maxOutputTokens` limit to `400` to guarantee complete, detailed explanations.
+
+### 2. Split Workspace Squishing & Layout Overlaps
+* **Problem**: In a fluid side-by-side split layout, dragging a sidebar to its maximum width (800px) or opening it on smaller laptop displays could squish the Document Viewer column to a tiny sliver or push it entirely off the screen.
+* **Solution**: Enforced strict CSS constraints:
+  * Document Viewer column: `minWidth: 400` and `flex: 1`.
+  * Sidebars: `maxWidth: "50%"` and minimum limits (`320px` for Explanation Panel, `280px` for Audit Log).
+  This guarantees that the main text box is always visible and occupies at least 50% of the screen width.
+
+### 3. Double-Redirect Navigation Loop (Home / Logo clicks)
+* **Problem**: The Landing Page auto-redirected to the review page if a document was active in the store, while the Review Page redirected to home if the document was missing. Calling `reset()` and navigating synchronously caused a race condition where the Landing Page would mount, detect the old document before the reset hook ran, and push the user straight back to the review page.
+* **Solution**: Removed the auto-redirect `useEffect` from `LandingPage.tsx`. All navigations are now triggered explicitly in action handlers (like clicking a sample or pasting text). Clicks on the Logo or Home buttons now reset state and navigate back synchronously with zero redirects.
+
+### 4. Overlapping Regex PII Detections
+* **Problem**: Independent regex rules for Phone Numbers and Financial Accounts could overlap (e.g. matching a 10-digit number as both a phone number and a bank account). If left unfiltered, these overlapping offsets caused string index crashes or duplicated characters when slicing text segments in `buildSegments`.
+* **Solution**: Implemented a **greedy interval scheduling filter** in `generateDefaultSpans` that sorts matches by length descending (longest match first) and priority descending (specific types over generic numbers). It scans matches sequentially and drops any span that overlaps with a previously accepted span.
+
+### 5. Session Expiration & Offline Fallback
+* **Problem**: Saving server files triggers automatic Node.js restarts, which clears the in-memory document store. An active browser tab clicking "Ask Why" after a restart would send an `/api/ask` request with an expired document ID, returning a 404 and showing a generic error bubble.
+* **Solution**: Created a client-side fallback in `AskWhyBox.tsx`. If the API request fails (due to a restart, network issue, or rate limit), the box catches the error and reconstructs a grounded reasoning and risk card based on local span metadata (matching the previous template values), keeping the app functional and user-friendly at all times.
