@@ -17,6 +17,28 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "../components/common/Button";
 
+const containerVariants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.08,
+    },
+  },
+};
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 25 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      type: "spring",
+      damping: 22,
+      stiffness: 160,
+    },
+  },
+};
+
 export function LandingPage() {
   const navigate = useNavigate();
   const {
@@ -39,6 +61,15 @@ export function LandingPage() {
     api.getSamples()
       .then((data) => setSamples(data.samples))
       .catch(() => {});
+
+    // Dynamically inject Google Font
+    const link = document.createElement("link");
+    link.href = "https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap";
+    link.rel = "stylesheet";
+    document.head.appendChild(link);
+    return () => {
+      document.head.removeChild(link);
+    };
   }, []);
 
   const handleSampleClick = async (sampleId: string) => {
@@ -96,6 +127,7 @@ export function LandingPage() {
         flexDirection: "column",
         alignItems: "center",
         padding: "64px 24px 80px",
+        fontFamily: "'Plus Jakarta Sans', sans-serif",
       }}
     >
       {/* 1. Hero Section */}
@@ -113,11 +145,15 @@ export function LandingPage() {
       >
         <h1
           style={{
-            fontSize: 48,
+            fontSize: 52,
             fontWeight: 800,
             letterSpacing: "-0.04em",
             margin: 0,
-            color: "var(--text-primary)",
+            background: "linear-gradient(135deg, #0d9488 0%, #14b8a6 50%, #0f766e 100%)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            display: "inline-block",
+            fontFamily: "'Plus Jakarta Sans', sans-serif",
           }}
         >
           Conseal Trust Viewer
@@ -128,6 +164,7 @@ export function LandingPage() {
             fontWeight: 500,
             color: "var(--text-secondary)",
             margin: 0,
+            fontFamily: "'Plus Jakarta Sans', sans-serif",
           }}
         >
           Your documents. Your redactions. Your trust.
@@ -139,6 +176,7 @@ export function LandingPage() {
             lineHeight: 1.8,
             maxWidth: 600,
             margin: "8px 0 0",
+            fontFamily: "'Plus Jakarta Sans', sans-serif",
           }}
         >
           Every redaction is interrogatable. Every kept-visible span has a reason. Know exactly why your data was protected — and prove it.
@@ -146,7 +184,10 @@ export function LandingPage() {
       </div>
 
       {/* 2. Value Props Cards Grid */}
-      <div
+      <motion.div
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
         style={{
           width: "100%",
           maxWidth: 1200,
@@ -157,10 +198,17 @@ export function LandingPage() {
         }}
       >
         {valueProps.map((prop, idx) => (
-          <div
+          <motion.div
             key={idx}
+            variants={cardVariants}
+            whileHover={{
+              y: -8,
+              boxShadow: "0 20px 40px rgba(13, 148, 136, 0.12)",
+              borderColor: "#0d9488",
+              transition: { duration: 0.2 },
+            }}
             style={{
-              backgroundColor: "var(--bg-surface)",
+              background: "linear-gradient(135deg, var(--bg-surface) 0%, rgba(13, 148, 136, 0.04) 50%, rgba(20, 184, 166, 0.08) 100%)",
               border: "1px solid var(--border-default)",
               borderRadius: "var(--radius-xl)",
               padding: "32px",
@@ -169,6 +217,8 @@ export function LandingPage() {
               flexDirection: "column",
               gap: 16,
               alignItems: "flex-start",
+              cursor: "default",
+              fontFamily: "'Plus Jakarta Sans', sans-serif",
             }}
           >
             <div>{prop.icon}</div>
@@ -178,6 +228,7 @@ export function LandingPage() {
                 fontWeight: 700,
                 color: "var(--text-primary)",
                 margin: 0,
+                fontFamily: "'Plus Jakarta Sans', sans-serif",
               }}
             >
               {prop.title}
@@ -188,13 +239,14 @@ export function LandingPage() {
                 color: "var(--text-secondary)",
                 lineHeight: 1.6,
                 margin: 0,
+                fontFamily: "'Plus Jakarta Sans', sans-serif",
               }}
             >
               {prop.desc}
             </p>
-          </div>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
 
       {/* 3. Call to Action (CTA) Section */}
       <div
@@ -210,16 +262,23 @@ export function LandingPage() {
         <h2
           style={{
             fontSize: 32,
-            fontWeight: 700,
-            color: "var(--text-primary)",
+            fontWeight: 800,
             margin: 0,
             textAlign: "center",
+            background: "linear-gradient(135deg, #0d9488 0%, #14b8a6 100%)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            display: "inline-block",
+            fontFamily: "'Plus Jakarta Sans', sans-serif",
           }}
         >
           Get Started
         </h2>
 
-        <div
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
           style={{
             width: "100%",
             display: "grid",
@@ -228,9 +287,16 @@ export function LandingPage() {
           }}
         >
           {/* Option 1: View Samples */}
-          <div
+          <motion.div
+            variants={cardVariants}
+            whileHover={{
+              y: -8,
+              boxShadow: "0 20px 40px rgba(13, 148, 136, 0.12)",
+              borderColor: "#0d9488",
+              transition: { duration: 0.2 },
+            }}
             style={{
-              backgroundColor: "var(--bg-surface)",
+              background: "linear-gradient(135deg, var(--bg-surface) 0%, rgba(13, 148, 136, 0.04) 50%, rgba(20, 184, 166, 0.08) 100%)",
               border: "1px solid var(--border-default)",
               borderRadius: "var(--radius-xl)",
               padding: "32px",
@@ -239,14 +305,15 @@ export function LandingPage() {
               flexDirection: "column",
               justifyContent: "space-between",
               gap: 20,
+              fontFamily: "'Plus Jakarta Sans', sans-serif",
             }}
           >
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
               <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
                 <FileText size={20} style={{ color: "#0d9488" }} />
-                <h4 style={{ fontSize: 16, fontWeight: 700, margin: 0 }}>Review Samples</h4>
+                <h4 style={{ fontSize: 16, fontWeight: 700, margin: 0, fontFamily: "'Plus Jakarta Sans', sans-serif" }}>Review Samples</h4>
               </div>
-              <p style={{ fontSize: 13, color: "var(--text-secondary)", lineHeight: 1.6, margin: 0 }}>
+              <p style={{ fontSize: 13, color: "var(--text-secondary)", lineHeight: 1.6, margin: 0, fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
                 Explore pre-loaded resume, medical letter, and legal document with full redaction details.
               </p>
             </div>
@@ -257,12 +324,19 @@ export function LandingPage() {
             >
               View Samples
             </Button>
-          </div>
+          </motion.div>
 
           {/* Option 2: Paste Text */}
-          <div
+          <motion.div
+            variants={cardVariants}
+            whileHover={{
+              y: -8,
+              boxShadow: "0 20px 40px rgba(13, 148, 136, 0.12)",
+              borderColor: "#0d9488",
+              transition: { duration: 0.2 },
+            }}
             style={{
-              backgroundColor: "var(--bg-surface)",
+              background: "linear-gradient(135deg, var(--bg-surface) 0%, rgba(13, 148, 136, 0.04) 50%, rgba(20, 184, 166, 0.08) 100%)",
               border: "1px solid var(--border-default)",
               borderRadius: "var(--radius-xl)",
               padding: "32px",
@@ -271,14 +345,15 @@ export function LandingPage() {
               flexDirection: "column",
               justifyContent: "space-between",
               gap: 20,
+              fontFamily: "'Plus Jakarta Sans', sans-serif",
             }}
           >
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
               <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
                 <ClipboardPaste size={20} style={{ color: "#0d9488" }} />
-                <h4 style={{ fontSize: 16, fontWeight: 700, margin: 0 }}>Paste Text</h4>
+                <h4 style={{ fontSize: 16, fontWeight: 700, margin: 0, fontFamily: "'Plus Jakarta Sans', sans-serif" }}>Paste Text</h4>
               </div>
-              <p style={{ fontSize: 13, color: "var(--text-secondary)", lineHeight: 1.6, margin: 0 }}>
+              <p style={{ fontSize: 13, color: "var(--text-secondary)", lineHeight: 1.6, margin: 0, fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
                 Copy-paste a document directly and Conseal will analyze it for personal data (PII) leaks.
               </p>
             </div>
@@ -288,12 +363,19 @@ export function LandingPage() {
             >
               Paste Text
             </Button>
-          </div>
+          </motion.div>
 
           {/* Option 3: Upload File */}
-          <div
+          <motion.div
+            variants={cardVariants}
+            whileHover={{
+              y: -8,
+              boxShadow: "0 20px 40px rgba(13, 148, 136, 0.12)",
+              borderColor: "#0d9488",
+              transition: { duration: 0.2 },
+            }}
             style={{
-              backgroundColor: "var(--bg-surface)",
+              background: "linear-gradient(135deg, var(--bg-surface) 0%, rgba(13, 148, 136, 0.04) 50%, rgba(20, 184, 166, 0.08) 100%)",
               border: "1px solid var(--border-default)",
               borderRadius: "var(--radius-xl)",
               padding: "32px",
@@ -302,14 +384,15 @@ export function LandingPage() {
               flexDirection: "column",
               justifyContent: "space-between",
               gap: 20,
+              fontFamily: "'Plus Jakarta Sans', sans-serif",
             }}
           >
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
               <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
                 <Upload size={20} style={{ color: "#0d9488" }} />
-                <h4 style={{ fontSize: 16, fontWeight: 700, margin: 0 }}>Upload File</h4>
+                <h4 style={{ fontSize: 16, fontWeight: 700, margin: 0, fontFamily: "'Plus Jakarta Sans', sans-serif" }}>Upload File</h4>
               </div>
-              <p style={{ fontSize: 13, color: "var(--text-secondary)", lineHeight: 1.6, margin: 0 }}>
+              <p style={{ fontSize: 13, color: "var(--text-secondary)", lineHeight: 1.6, margin: 0, fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
                 Upload `.txt` files directly from your computer to run local privacy assessments.
               </p>
             </div>
@@ -319,8 +402,8 @@ export function LandingPage() {
             >
               Upload File
             </Button>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </div>
 
       {/* Paste Modal */}
