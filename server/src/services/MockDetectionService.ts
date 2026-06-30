@@ -131,8 +131,8 @@ export class MockDetectionService implements DetectionService {
         type: "EMAIL",
         confidence: 0.95,
         priority: 4,
-        summary: (m) =>
-          `This matches the pattern of an email address (${m}) and could be used to contact or identify the person it belongs to.`,
+        summary: () =>
+          "This matches the pattern of an email address and could be used to contact or identify the person it belongs to.",
         signals: ["Standard email format (user@domain)"],
         risk: "Email addresses enable unsolicited contact, phishing attacks, and can be used to look up other accounts.",
       },
@@ -141,8 +141,8 @@ export class MockDetectionService implements DetectionService {
         type: "SSN_OR_GOVT_ID",
         confidence: 0.95,
         priority: 3,
-        summary: (m) =>
-          `This number (${m}) matches the pattern of a US Social Security Number. If it is an SSN, it is extremely high-risk PII.`,
+        summary: () =>
+          "This matches the pattern of a US Social Security Number. SSNs are high-risk identifiers that can be exploited for identity theft.",
         signals: ["SSN format (XXX-XX-XXXX or similar)"],
         risk: "Social Security Numbers enable identity theft, fraudulent credit applications, and tax fraud.",
       },
@@ -151,8 +151,8 @@ export class MockDetectionService implements DetectionService {
         type: "SSN_OR_GOVT_ID",
         confidence: 0.92,
         priority: 3,
-        summary: (m) =>
-          `This value (${m}) matches the alphanumeric format of a Passport Number.`,
+        summary: () =>
+          "This matches the alphanumeric format of a Passport Number.",
         signals: ["Passport format (2 letters followed by 7 digits)"],
         risk: "Passport numbers are highly sensitive government identifiers that can enable identity fraud or travel exploitation.",
       },
@@ -161,8 +161,8 @@ export class MockDetectionService implements DetectionService {
         type: "SSN_OR_GOVT_ID",
         confidence: 0.90,
         priority: 3,
-        summary: (m) =>
-          `This value (${m}) matches the pattern of a Tax Identification Number or Employer Identification Number.`,
+        summary: () =>
+          "This matches the pattern of a Tax Identification Number or Employer Identification Number.",
         signals: ["Tax ID/EIN format (XX-XXXXXXX)"],
         risk: "Tax identifiers are sensitive government-issued numbers that can facilitate financial identity theft.",
       },
@@ -171,8 +171,8 @@ export class MockDetectionService implements DetectionService {
         type: "PHONE",
         confidence: 0.88,
         priority: 3,
-        summary: (m) =>
-          `This matches the pattern of a US phone number (${m}).`,
+        summary: () =>
+          "This matches the pattern of a US phone number.",
         signals: ["US phone number format"],
         risk: "Phone numbers enable unwanted calls, SMS phishing, and SIM swapping attacks.",
       },
@@ -181,8 +181,8 @@ export class MockDetectionService implements DetectionService {
         type: "FINANCIAL_ACCOUNT",
         confidence: 0.92,
         priority: 2,
-        summary: (m) =>
-          `This 9-digit number (${m}) matches the format of a bank routing transit number.`,
+        summary: () =>
+          "This 9-digit number matches the format of a bank routing transit number.",
         signals: ["9-digit financial identifier"],
         risk: "Routing numbers are used alongside account numbers to authorize electronic fund transfers and print fraudulent checks.",
       },
@@ -191,8 +191,8 @@ export class MockDetectionService implements DetectionService {
         type: "FINANCIAL_ACCOUNT",
         confidence: 0.85,
         priority: 1,
-        summary: (m) =>
-          `This sequence (${m}) matches the digit length of a typical bank account or credit card number.`,
+        summary: () =>
+          "This sequence matches the digit length of a typical bank account or credit card number.",
         signals: ["Numeric sequence of account length (6-18 digits)"],
         risk: "Exposed financial account numbers facilitate unauthorized transactions, fraud, and account takeovers.",
       },

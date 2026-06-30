@@ -283,7 +283,7 @@ export function LandingPage() {
               </p>
             </div>
             <Button
-              variant="secondary"
+              variant="primary"
               onClick={() => setShowPasteModal(true)}
             >
               Paste Text
@@ -314,7 +314,7 @@ export function LandingPage() {
               </p>
             </div>
             <Button
-              variant="secondary"
+              variant="primary"
               onClick={() => setShowUploadModal(true)}
             >
               Upload File

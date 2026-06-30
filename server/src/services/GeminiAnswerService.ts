@@ -77,6 +77,7 @@ export class GeminiAnswerService implements AnswerService {
 ${toneNote}
 
 **CONSTRAINTS:**
+- CRITICAL SECURITY CONSTRAINT: Under no circumstances should you ever output, reveal, quote, or display the raw sensitive text of the PII ("${span.text}") in your response. Instead, refer to it only by its category label (e.g. "the email address", "the government ID", "the phone number") to avoid leaking the data you are trying to explain.
 - Only use the facts provided below. Do not invent facts about the document, the organization, or the detection method.
 - Keep your answer to 1–3 sentences. Be specific and grounded.
 - If the user asks about something not in the facts below, say "I don't have that information" rather than guessing.
