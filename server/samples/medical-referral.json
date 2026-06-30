@@ -1,0 +1,312 @@
+{
+  "id": "sample-medical",
+  "title": "Medical Referral Letter — Dr. Patel to Dr. Nguyen",
+  "description": "A physician referral letter containing patient demographics, medical history, insurance details, and clinical notes.",
+  "originalText": "PACIFIC COAST MEDICAL CENTER\nDepartment of Internal Medicine\n450 Harbor Boulevard, Suite 200\nLong Beach, CA 90802\n\nDate: November 8, 2024\n\nRe: Patient Referral — James Robert Morrison\nDOB: 07/23/1978\nMRN: PCM-2024-08847\n\nDear Dr. Nguyen,\n\nI am writing to refer my patient, James Morrison, for evaluation of persistent lower back pain with radiculopathy. Mr. Morrison has been under my care since May 2021 and has not responded adequately to conservative treatment.\n\nPatient Demographics:\nName: James Robert Morrison\nAddress: 2847 Oceanview Drive\nLong Beach, CA 90803\nPhone: (562) 555-0347\nEmail: j.morrison78@yahoo.com\nInsurance: Blue Shield PPO\nMember ID: BSC-9923-4451-7782\nSSN (for billing): 551-72-8834\n\nClinical History:\nMr. Morrison presents with chronic lumbar pain rated 7/10, worsening over the past 6 months. MRI dated September 12, 2024 revealed L4-L5 disc herniation with moderate foraminal stenosis. The patient reports numbness and tingling in the left lower extremity. He has a history of Type 2 diabetes managed with metformin 1000mg BID and hypertension controlled with lisinopril 20mg daily.\n\nPrior Treatments:\n- Physical therapy (12 sessions, minimal improvement)\n- Epidural steroid injection (March 2024, temporary relief ~6 weeks)\n- Gabapentin 300mg TID (ongoing, partial symptom management)\n\nI would appreciate your evaluation for potential surgical intervention. Please contact my office at (562) 555-0100 if you need additional records.\n\nSincerely,\n\nDr. Anika Patel, MD\nInternal Medicine\nPacific Coast Medical Center\nNPI: 1234567890\nDirect: dr.patel@pcmedcenter.org",
+  "spans": [
+    {
+      "id": "med_span_01",
+      "text": "James Robert Morrison",
+      "startIndex": 167,
+      "endIndex": 188,
+      "type": "PERSON_NAME",
+      "confidence": 0.96,
+      "decision": "redacted",
+      "isBorderline": false,
+      "reasoning": {
+        "summary": "This is the full legal name of the patient being referred, appearing in the subject line of a medical referral. It is the primary identifier for the individual whose protected health information follows.",
+        "signals": ["Full name (FIRST MIDDLE LAST) pattern", "Patient referral subject line", "Repeated multiple times in document"],
+        "ruleBased": true,
+        "detectorNote": "Matched mock detection rule",
+        "threshold": 0.6,
+        "possibleRisk": "In a medical context, the patient's name combined with diagnosis details, medications, and insurance information constitutes protected health information (PHI) under HIPAA."
+      },
+      "occurrenceGroup": "james_morrison"
+    },
+    {
+      "id": "med_span_02",
+      "text": "07/23/1978",
+      "startIndex": 194,
+      "endIndex": 204,
+      "type": "DATE_OF_BIRTH",
+      "confidence": 0.93,
+      "decision": "redacted",
+      "isBorderline": false,
+      "reasoning": {
+        "summary": "This date immediately follows a 'DOB:' label in a medical referral header, confirming it is the patient's date of birth.",
+        "signals": ["MM/DD/YYYY format", "Preceded by 'DOB:' label", "Medical document header context"],
+        "ruleBased": true,
+        "detectorNote": "Matched mock detection rule",
+        "threshold": 0.6,
+        "possibleRisk": "Date of birth is one of the 18 HIPAA identifiers and a key factor in identity verification — combined with name and SSN, it enables complete identity compromise."
+      },
+      "occurrenceGroup": "dob_morrison"
+    },
+    {
+      "id": "med_span_03",
+      "text": "Dr. Nguyen",
+      "startIndex": 232,
+      "endIndex": 242,
+      "type": "PERSON_NAME",
+      "confidence": 0.61,
+      "decision": "redacted",
+      "isBorderline": true,
+      "reasoning": {
+        "summary": "This is the name of the receiving physician in the referral. While it's a healthcare provider name rather than patient PII, the 'Dr.' title plus surname triggered the name detector. It sits just above the redaction threshold and is borderline.",
+        "signals": ["Dr. + surname pattern", "Letter salutation context", "Healthcare provider, not patient"],
+        "ruleBased": false,
+        "detectorNote": "Matched mock detection rule",
+        "threshold": 0.6,
+        "possibleRisk": "Doctor names are semi-public professional identifiers. The risk here is less about the doctor and more that a physician's name combined with the patient's details could help triangulate the patient's care network."
+      },
+      "occurrenceGroup": "dr_nguyen"
+    },
+    {
+      "id": "med_span_04",
+      "text": "James Morrison",
+      "startIndex": 269,
+      "endIndex": 283,
+      "type": "PERSON_NAME",
+      "confidence": 0.93,
+      "decision": "redacted",
+      "isBorderline": false,
+      "reasoning": {
+        "summary": "This is the second mention of the patient's name (first + last only), appearing in the body of the referral letter.",
+        "signals": ["First + Last name pattern", "Matches subject line name", "Patient reference in clinical narrative"],
+        "ruleBased": true,
+        "detectorNote": "Matched mock detection rule",
+        "threshold": 0.6,
+        "possibleRisk": "Same risk as the full name — identifies the patient whose medical information is detailed in this letter."
+      },
+      "occurrenceGroup": "james_morrison"
+    },
+    {
+      "id": "med_span_05",
+      "text": "May 2021",
+      "startIndex": 355,
+      "endIndex": 363,
+      "type": "OTHER",
+      "confidence": 0.38,
+      "decision": "kept",
+      "isBorderline": false,
+      "reasoning": {
+        "summary": "The word 'May' triggered a name-detection signal, but in context this is clearly a month reference ('since May 2021'), not a person's name. The date of care initiation has low identification value on its own.",
+        "signals": ["'May' matches common first name", "Followed by year — date context", "Clinical timeline reference"],
+        "ruleBased": false,
+        "detectorNote": "Matched mock detection rule",
+        "threshold": 0.6,
+        "possibleRisk": "The month a patient started care has minimal standalone identification risk, though combined with other details it could narrow down a patient cohort."
+      },
+      "occurrenceGroup": "may_date"
+    },
+    {
+      "id": "med_span_06",
+      "text": "James Robert Morrison",
+      "startIndex": 448,
+      "endIndex": 469,
+      "type": "PERSON_NAME",
+      "confidence": 0.96,
+      "decision": "redacted",
+      "isBorderline": false,
+      "reasoning": {
+        "summary": "Third occurrence of the patient's full legal name, appearing in the demographics section of the referral.",
+        "signals": ["Full name pattern", "Demographics section header", "Exact match to subject line"],
+        "ruleBased": true,
+        "detectorNote": "Matched mock detection rule",
+        "threshold": 0.6,
+        "possibleRisk": "Full name combined with the medical details, SSN, and insurance ID in this document creates severe identity theft and medical fraud risk."
+      },
+      "occurrenceGroup": "james_morrison"
+    },
+    {
+      "id": "med_span_07",
+      "text": "2847 Oceanview Drive\nLong Beach, CA 90803",
+      "startIndex": 479,
+      "endIndex": 520,
+      "type": "ADDRESS",
+      "confidence": 0.92,
+      "decision": "redacted",
+      "isBorderline": false,
+      "reasoning": {
+        "summary": "This is the patient's complete residential address spanning two lines, including street number, street name, city, state, and ZIP code.",
+        "signals": ["Street address pattern", "City, State ZIP format", "Multi-line address block", "Demographics section context"],
+        "ruleBased": true,
+        "detectorNote": "Matched mock detection rule",
+        "threshold": 0.6,
+        "possibleRisk": "A patient's home address in a medical document is both PII and PHI — it reveals where a person with specific medical conditions lives."
+      },
+      "occurrenceGroup": "address_morrison"
+    },
+    {
+      "id": "med_span_08",
+      "text": "(562) 555-0347",
+      "startIndex": 528,
+      "endIndex": 542,
+      "type": "PHONE",
+      "confidence": 0.95,
+      "decision": "redacted",
+      "isBorderline": false,
+      "reasoning": {
+        "summary": "This is the patient's phone number in standard US format, listed in the demographics section of the medical referral.",
+        "signals": ["US phone format (XXX) XXX-XXXX", "Demographics section", "Preceded by 'Phone:' label"],
+        "ruleBased": true,
+        "detectorNote": "Matched mock detection rule",
+        "threshold": 0.6,
+        "possibleRisk": "A patient's phone number linked to medical information enables targeted health-related scams and social engineering."
+      },
+      "occurrenceGroup": "phone_morrison"
+    },
+    {
+      "id": "med_span_09",
+      "text": "j.morrison78@yahoo.com",
+      "startIndex": 550,
+      "endIndex": 572,
+      "type": "EMAIL",
+      "confidence": 0.97,
+      "decision": "redacted",
+      "isBorderline": false,
+      "reasoning": {
+        "summary": "This is the patient's personal email address, containing identifiable elements (surname + birth year) in the address itself.",
+        "signals": ["Standard email format", "Contains surname", "Contains likely birth year (78 = 1978)", "Demographics section"],
+        "ruleBased": true,
+        "detectorNote": "Matched mock detection rule",
+        "threshold": 0.6,
+        "possibleRisk": "Email addresses containing names and birth years are especially risky — they confirm identity independently and provide a direct attack vector for phishing."
+      },
+      "occurrenceGroup": "email_morrison"
+    },
+    {
+      "id": "med_span_10",
+      "text": "BSC-9923-4451-7782",
+      "startIndex": 607,
+      "endIndex": 625,
+      "type": "FINANCIAL_ACCOUNT",
+      "confidence": 0.85,
+      "decision": "redacted",
+      "isBorderline": false,
+      "reasoning": {
+        "summary": "This is an insurance member ID number, preceded by a 'Member ID:' label. Insurance IDs are used for billing and can be exploited for fraudulent medical claims.",
+        "signals": ["Alphanumeric ID pattern", "Preceded by 'Member ID:' label", "Insurance context (Blue Shield PPO)"],
+        "ruleBased": true,
+        "detectorNote": "Matched mock detection rule",
+        "threshold": 0.6,
+        "possibleRisk": "Insurance member IDs enable medical identity theft — fraudulent claims, unauthorized prescriptions, and corrupted medical records."
+      },
+      "occurrenceGroup": "insurance_morrison"
+    },
+    {
+      "id": "med_span_11",
+      "text": "551-72-8834",
+      "startIndex": 649,
+      "endIndex": 660,
+      "type": "SSN_OR_GOVT_ID",
+      "confidence": 0.99,
+      "decision": "redacted",
+      "isBorderline": false,
+      "reasoning": {
+        "summary": "This matches the US SSN format (XXX-XX-XXXX) and is explicitly labeled 'SSN (for billing)' in a medical document. Social Security Numbers in medical files represent the highest-risk PII exposure.",
+        "signals": ["SSN format XXX-XX-XXXX", "Preceded by 'SSN (for billing):' label", "Medical document — HIPAA-protected context"],
+        "ruleBased": true,
+        "detectorNote": "Matched mock detection rule",
+        "threshold": 0.6,
+        "possibleRisk": "SSN exposure in a medical document creates a compound risk: both financial identity theft and medical identity theft become possible simultaneously."
+      },
+      "occurrenceGroup": "ssn_morrison"
+    },
+    {
+      "id": "med_span_12",
+      "text": "chronic lumbar pain rated 7/10, worsening over the past 6 months. MRI dated September 12, 2024 revealed L4-L5 disc herniation with moderate foraminal stenosis. The patient reports numbness and tingling in the left lower extremity. He has a history of Type 2 diabetes managed with metformin 1000mg BID and hypertension controlled with lisinopril 20mg daily",
+      "startIndex": 688,
+      "endIndex": 1047,
+      "type": "MEDICAL_INFO",
+      "confidence": 0.63,
+      "decision": "redacted",
+      "isBorderline": true,
+      "reasoning": {
+        "summary": "This is a detailed clinical narrative containing specific diagnoses (disc herniation, diabetes, hypertension), medications with dosages, imaging results, and symptom descriptions. While medical details are not PII alone, they become PHI when linked to an identified patient.",
+        "signals": ["Specific diagnoses mentioned", "Medication names and dosages", "Imaging results with dates", "Symptom severity ratings", "Clinical history section"],
+        "ruleBased": false,
+        "detectorNote": "Matched mock detection rule",
+        "threshold": 0.6,
+        "possibleRisk": "Detailed medical history linked to a named patient constitutes protected health information (PHI). Exposure could affect insurance eligibility, employment prospects, and personal dignity."
+      },
+      "occurrenceGroup": "medical_history"
+    },
+    {
+      "id": "med_span_13",
+      "text": "Mr. Morrison",
+      "startIndex": 669,
+      "endIndex": 681,
+      "type": "PERSON_NAME",
+      "confidence": 0.58,
+      "decision": "kept",
+      "isBorderline": true,
+      "reasoning": {
+        "summary": "This is a title + surname reference to the patient. It fell just below the redaction threshold. While it is clearly a reference to the same patient (James Morrison), the partial name with a common title is less uniquely identifying on its own.",
+        "signals": ["Title (Mr.) + surname pattern", "Matches patient subject by surname", "Clinical narrative context"],
+        "ruleBased": false,
+        "detectorNote": "Matched mock detection rule",
+        "threshold": 0.6,
+        "possibleRisk": "In isolation, 'Mr. Morrison' is fairly generic, but within this medical document it unambiguously refers to the identified patient."
+      },
+      "occurrenceGroup": "james_morrison"
+    },
+    {
+      "id": "med_span_14",
+      "text": "(562) 555-0100",
+      "startIndex": 1189,
+      "endIndex": 1203,
+      "type": "PHONE",
+      "confidence": 0.64,
+      "decision": "redacted",
+      "isBorderline": true,
+      "reasoning": {
+        "summary": "This is the referring physician's office phone number. It is a professional number rather than a personal one, but the phone number pattern triggered detection. It sits in the borderline range.",
+        "signals": ["US phone format", "Medical office context", "Preceded by 'contact my office at'", "Professional, not personal"],
+        "ruleBased": true,
+        "detectorNote": "Matched mock detection rule",
+        "threshold": 0.6,
+        "possibleRisk": "Office phone numbers are semi-public, but in a redacted document they could help identify the referring physician and thus the patient's care network."
+      },
+      "occurrenceGroup": "phone_office"
+    },
+    {
+      "id": "med_span_15",
+      "text": "Dr. Anika Patel",
+      "startIndex": 1227,
+      "endIndex": 1242,
+      "type": "PERSON_NAME",
+      "confidence": 0.72,
+      "decision": "redacted",
+      "isBorderline": false,
+      "reasoning": {
+        "summary": "This is the full name of the referring physician, appearing in the signature block. Healthcare provider names are semi-public but contribute to identifying the patient's care network.",
+        "signals": ["Dr. + First + Last name pattern", "Signature block position", "Healthcare provider"],
+        "ruleBased": true,
+        "detectorNote": "Matched mock detection rule",
+        "threshold": 0.6,
+        "possibleRisk": "The referring doctor's identity, combined with the patient's details, could help reconstruct the full care relationship and facility."
+      },
+      "occurrenceGroup": "dr_patel"
+    },
+    {
+      "id": "med_span_16",
+      "text": "dr.patel@pcmedcenter.org",
+      "startIndex": 1302,
+      "endIndex": 1326,
+      "type": "EMAIL",
+      "confidence": 0.90,
+      "decision": "redacted",
+      "isBorderline": false,
+      "reasoning": {
+        "summary": "This is the referring physician's professional email address, containing both her name and institution domain.",
+        "signals": ["Standard email format", "Contains physician name", "Institutional domain", "Contact section"],
+        "ruleBased": true,
+        "detectorNote": "Matched mock detection rule",
+        "threshold": 0.6,
+        "possibleRisk": "A physician's institutional email reveals their identity and workplace, and in context links them to the specific patient referred in this letter."
+      },
+      "occurrenceGroup": "email_patel"
+    }
+  ]
+}

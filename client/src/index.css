@@ -1,0 +1,279 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import "tailwindcss";
+
+/* ================================================================
+   CONSEAL TRUST CONSOLE — DESIGN SYSTEM
+   Calm, clinical trust — security-audit-dashboard meets clean legal tech.
+   ================================================================ */
+
+/* ================================================================
+   CSS CUSTOM PROPERTIES — LIGHT & DARK
+   ================================================================ */
+:root {
+  /* Backgrounds */
+  --bg-primary: #f8fafc;
+  --bg-surface: #ffffff;
+  --bg-panel: #ffffff;
+  --bg-surface-hover: #f1f5f9;
+  --bg-subtle: #f8fafc;
+
+  /* Borders */
+  --border-default: #e2e8f0;
+  --border-strong: #cbd5e1;
+
+  /* Text */
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  --text-inverse: #f8fafc;
+
+  /* Brand */
+  --accent-primary: #0d9488;
+  --accent-primary-hover: #0d9488; /* Unified no hover color change */
+  --accent-primary-subtle: rgba(13, 148, 136, 0.1);
+
+  /* Semantic */
+  --color-success: #10b981;
+  --color-success-subtle: #ecfdf5;
+  --color-success-text: #047857;
+  --color-warning: #f59e0b;
+  --color-warning-subtle: #fffbeb;
+  --color-warning-text: #b45309;
+  --color-danger: #ef4444;
+  --color-danger-subtle: #fef2f2;
+  --color-danger-text: #991b1b;
+
+  /* Span highlights */
+  --span-redacted-high: rgba(13, 148, 136, 0.12);
+  --span-redacted-high-border: rgba(13, 148, 136, 0.35);
+  --span-redacted-borderline: rgba(245, 158, 11, 0.1);
+  --span-redacted-borderline-border: rgba(245, 158, 11, 0.35);
+  --span-kept: rgba(16, 185, 129, 0.08);
+  --span-kept-border: rgba(16, 185, 129, 0.3);
+  --span-selected-glow: rgba(13, 148, 136, 0.25);
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.08);
+  --shadow-panel: 0 8px 32px rgba(0, 0, 0, 0.1);
+
+  /* Layout */
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+
+  /* Typography */
+  --font-ui: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+}
+
+/* ================================================================
+   DARK MODE
+   ================================================================ */
+[data-theme="dark"] {
+  /* Backgrounds */
+  --bg-primary: #0f172a;
+  --bg-surface: #1e293b;
+  --bg-panel: #1a1f3a;
+  --bg-surface-hover: #334155;
+  --bg-subtle: #1e293b;
+
+  /* Borders */
+  --border-default: #334155;
+  --border-strong: #475569;
+
+  /* Text */
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #64748b;
+  --text-inverse: #0f172a;
+
+  /* Brand */
+  --accent-primary: #14b8a6;
+  --accent-primary-hover: #14b8a6; /* Unified no hover color change */
+  --accent-primary-subtle: rgba(20, 184, 166, 0.15);
+
+  /* Semantic */
+  --color-success: #10b981;
+  --color-success-subtle: #064e3b;
+  --color-success-text: #34d399;
+  --color-warning: #f59e0b;
+  --color-warning-subtle: #451a03;
+  --color-warning-text: #fbbf24;
+  --color-danger: #f87171;
+  --color-danger-subtle: #4c0519;
+  --color-danger-text: #fca5a5;
+
+  --span-redacted-high: rgba(20, 184, 166, 0.15);
+  --span-redacted-high-border: rgba(20, 184, 166, 0.4);
+  --span-redacted-borderline: rgba(245, 158, 11, 0.12);
+  --span-redacted-borderline-border: rgba(245, 158, 11, 0.4);
+  --span-kept: rgba(16, 185, 129, 0.1);
+  --span-kept-border: rgba(16, 185, 129, 0.35);
+  --span-selected-glow: rgba(20, 184, 166, 0.3);
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.35);
+  --shadow-panel: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+/* ================================================================
+   BASE STYLES
+   ================================================================ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-ui);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.6;
+  min-height: 100vh;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* ================================================================
+   SCROLLBAR
+   ================================================================ */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-primary);
+}
+
+/* ================================================================
+   FOCUS STATES (Accessibility)
+   ================================================================ */
+:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* ================================================================
+   PII SPAN STYLES
+   ================================================================ */
+.pii-span {
+  cursor: pointer;
+  border-radius: 3px;
+  transition: all 0.15s ease;
+  position: relative;
+  padding: 1px 2px;
+}
+
+.pii-span:hover {
+  filter: brightness(0.95);
+}
+
+.pii-span--redacted-high {
+  background-color: var(--span-redacted-high);
+  border-bottom: 2px solid var(--span-redacted-high-border);
+}
+
+.pii-span--redacted-borderline {
+  background-color: var(--span-redacted-borderline);
+  border-bottom: 2px dashed var(--span-redacted-borderline-border);
+}
+
+.pii-span--kept {
+  border-bottom: 2px dotted var(--span-kept-border);
+  background-color: var(--span-kept);
+}
+
+.pii-span--selected {
+  box-shadow: 0 0 0 2px var(--span-selected-glow),
+              0 0 12px var(--span-selected-glow);
+}
+
+.pii-span--accepted {
+  opacity: 0.7;
+}
+
+.pii-span--rejected {
+  text-decoration: line-through;
+  opacity: 0.5;
+}
+
+/* ================================================================
+   SPAN TYPE ICONS (inline, tiny)
+   ================================================================ */
+.pii-span-icon {
+  display: inline-flex;
+  align-items: center;
+  margin-right: 2px;
+  vertical-align: middle;
+  opacity: 0.6;
+}
+
+.pii-span-icon svg {
+  width: 12px;
+  height: 12px;
+}
+
+/* ================================================================
+   ANIMATIONS
+   ================================================================ */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideInRight {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slideInUp {
+  from { transform: translateY(8px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes pulse-subtle {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.2s ease-out;
+}
+
+.animate-slide-up {
+  animation: slideInUp 0.25s ease-out;
+}
+
+/* ================================================================
+   UTILITY CLASSES
+   ================================================================ */
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+.text-balance {
+  text-wrap: balance;
+}

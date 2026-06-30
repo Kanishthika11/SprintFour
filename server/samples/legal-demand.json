@@ -1,0 +1,274 @@
+{
+  "id": "sample-legal",
+  "title": "Legal Demand Letter — Chen & Associates",
+  "description": "A formal legal demand letter containing attorney details, client information, financial claims, and opposing party data.",
+  "originalText": "CHEN & ASSOCIATES, ATTORNEYS AT LAW\n1200 Financial District Plaza, 14th Floor\nNew York, NY 10005\nTel: (212) 555-0388\nFax: (212) 555-0389\n\nDecember 3, 2024\n\nVIA CERTIFIED MAIL\n\nMr. Robert A. Fitzgerald\n847 Commonwealth Avenue, Unit 3\nBoston, MA 02215\n\nRe: Demand for Payment — Account #4782-9931-0054\n\nDear Mr. Fitzgerald,\n\nThis firm represents Pinnacle Financial Services, Inc. (\"our client\") in connection with your outstanding obligation under Loan Agreement No. PFS-2023-7742, executed on May 14, 2023.\n\nOur records indicate that you have failed to make the required monthly payments since August 2024, resulting in a total outstanding balance of $47,832.16, inclusive of principal, accrued interest at 8.5% per annum, and applicable late fees.\n\nPlease be advised that unless full payment of $47,832.16 is received at our office within thirty (30) days of the date of this letter, our client has authorized us to commence legal proceedings against you to recover the full amount owed, plus attorney's fees, court costs, and any additional damages as permitted by law.\n\nPayment should be made via certified check or wire transfer to:\n\nBank: First National Bank of New York\nRouting: 021000089\nAccount: 7834-2291-5567\nBeneficiary: Pinnacle Financial Services Trust Account\nReference: Fitzgerald-PFS-2023-7742\n\nFor your records, your account details with our client are:\nClient ID: PFS-CLT-88421\nSSN on file: 029-44-7712\nDate of Birth: June 8, 1985\n\nPlease direct all communications regarding this matter to the undersigned at (212) 555-0388 or via email at l.chen@chenlaw.com.\n\nShould you wish to dispute this debt or request verification, you may do so in writing within thirty (30) days of receiving this notice, as provided under the Fair Debt Collection Practices Act, 15 U.S.C. § 1692 et seq.\n\nThis communication is from a debt collector. This is an attempt to collect a debt, and any information obtained will be used for that purpose.\n\nVery truly yours,\n\nLinda Chen, Esq.\nManaging Partner\nChen & Associates\nDirect: (212) 555-0391\nEmail: l.chen@chenlaw.com\nNY Bar #: 4829371",
+  "spans": [
+    {
+      "id": "legal_span_01",
+      "text": "Chen & Associates",
+      "startIndex": 0,
+      "endIndex": 17,
+      "type": "ORG",
+      "confidence": 0.65,
+      "decision": "redacted",
+      "isBorderline": true,
+      "reasoning": {
+        "summary": "This is a law firm name that also contains a surname ('Chen'). While law firm names are generally semi-public, in the context of this demand letter it identifies the firm representing the creditor and could be used to trace the legal action back to the debtor.",
+        "signals": ["Organization name with surname", "Law firm designation ('Attorneys at Law')", "Document header — primary entity", "Could link letter to debtor if leaked"],
+        "ruleBased": false,
+        "detectorNote": "Matched mock detection rule",
+        "threshold": 0.6,
+        "possibleRisk": "If this redacted letter were exposed, the law firm name would help trace the debt collection action back to the recipient — damaging in professional or social contexts."
+      },
+      "occurrenceGroup": "chen_associates"
+    },
+    {
+      "id": "legal_span_02",
+      "text": "1200 Financial District Plaza, 14th Floor\nNew York, NY 10005",
+      "startIndex": 38,
+      "endIndex": 97,
+      "type": "ADDRESS",
+      "confidence": 0.89,
+      "decision": "redacted",
+      "isBorderline": false,
+      "reasoning": {
+        "summary": "This is the law firm's office address spanning two lines. While it is a business address rather than a personal one, it is part of the identifying letterhead and connects to the legal action.",
+        "signals": ["Street address + floor number", "City, State ZIP format", "Multi-line address", "Business letterhead position"],
+        "ruleBased": true,
+        "detectorNote": "Matched mock detection rule",
+        "threshold": 0.6,
+        "possibleRisk": "The firm's address confirms the authenticity of the demand letter and could be used to verify the legal action against the debtor."
+      },
+      "occurrenceGroup": "address_firm"
+    },
+    {
+      "id": "legal_span_03",
+      "text": "(212) 555-0388",
+      "startIndex": 103,
+      "endIndex": 117,
+      "type": "PHONE",
+      "confidence": 0.94,
+      "decision": "redacted",
+      "isBorderline": false,
+      "reasoning": {
+        "summary": "This is the law firm's main telephone number in the letterhead. Phone numbers are redacted consistently regardless of business vs. personal context.",
+        "signals": ["US phone format", "Letterhead position", "Area code 212 = Manhattan"],
+        "ruleBased": true,
+        "detectorNote": "Matched mock detection rule",
+        "threshold": 0.6,
+        "possibleRisk": "The firm's phone number could enable social engineering to obtain case details or the debtor's private information."
+      },
+      "occurrenceGroup": "phone_firm"
+    },
+    {
+      "id": "legal_span_04",
+      "text": "Robert A. Fitzgerald",
+      "startIndex": 178,
+      "endIndex": 198,
+      "type": "PERSON_NAME",
+      "confidence": 0.95,
+      "decision": "redacted",
+      "isBorderline": false,
+      "reasoning": {
+        "summary": "This is the full legal name of the letter's recipient (the debtor), including middle initial, appearing in the formal address block of a demand letter.",
+        "signals": ["Full name with middle initial", "Formal letter address block", "Preceded by 'Mr.'", "Primary subject of legal action"],
+        "ruleBased": true,
+        "detectorNote": "Matched mock detection rule",
+        "threshold": 0.6,
+        "possibleRisk": "The debtor's full name on a demand letter, if exposed, reveals that this individual is subject to a debt collection action — a highly sensitive personal matter."
+      },
+      "occurrenceGroup": "fitzgerald"
+    },
+    {
+      "id": "legal_span_05",
+      "text": "847 Commonwealth Avenue, Unit 3\nBoston, MA 02215",
+      "startIndex": 199,
+      "endIndex": 248,
+      "type": "ADDRESS",
+      "confidence": 0.91,
+      "decision": "redacted",
+      "isBorderline": false,
+      "reasoning": {
+        "summary": "This is the debtor's residential address spanning two lines, used for formal service of the demand letter.",
+        "signals": ["Street address + unit number", "City, State ZIP format", "Multi-line block", "Recipient address position"],
+        "ruleBased": true,
+        "detectorNote": "Matched mock detection rule",
+        "threshold": 0.6,
+        "possibleRisk": "A debtor's home address combined with their name and the nature of the legal action (debt collection) creates significant personal and safety risks."
+      },
+      "occurrenceGroup": "address_fitzgerald"
+    },
+    {
+      "id": "legal_span_06",
+      "text": "4782-9931-0054",
+      "startIndex": 281,
+      "endIndex": 295,
+      "type": "FINANCIAL_ACCOUNT",
+      "confidence": 0.88,
+      "decision": "redacted",
+      "isBorderline": false,
+      "reasoning": {
+        "summary": "This is a financial account number appearing after 'Account #' in the subject line. It uniquely identifies the debtor's loan account with the creditor.",
+        "signals": ["Numeric account pattern", "Preceded by 'Account #'", "Financial/legal context", "Unique account identifier"],
+        "ruleBased": true,
+        "detectorNote": "Matched mock detection rule",
+        "threshold": 0.6,
+        "possibleRisk": "Financial account numbers can be used for unauthorized account access, fraudulent transactions, or impersonation with financial institutions."
+      },
+      "occurrenceGroup": "account_fitzgerald"
+    },
+    {
+      "id": "legal_span_07",
+      "text": "Pinnacle Financial Services, Inc.",
+      "startIndex": 338,
+      "endIndex": 371,
+      "type": "ORG",
+      "confidence": 0.53,
+      "decision": "kept",
+      "isBorderline": true,
+      "reasoning": {
+        "summary": "This is the creditor company's legal name. Organization names are not direct PII, but in this context it identifies the financial institution that holds the debt. It falls below the redaction threshold.",
+        "signals": ["Formal corporate name with 'Inc.'", "Creditor in debt collection context", "Legal filing entity", "Not direct personal identifier"],
+        "ruleBased": false,
+        "detectorNote": "Matched mock detection rule",
+        "threshold": 0.6,
+        "possibleRisk": "The creditor's name reveals the type of financial institution and the nature of the debt, which could cause professional or personal embarrassment if exposed."
+      },
+      "occurrenceGroup": "pinnacle_financial"
+    },
+    {
+      "id": "legal_span_08",
+      "text": "May 14, 2023",
+      "startIndex": 438,
+      "endIndex": 450,
+      "type": "OTHER",
+      "confidence": 0.35,
+      "decision": "kept",
+      "isBorderline": false,
+      "reasoning": {
+        "summary": "The word 'May' triggered a name-detection signal, but the full context 'May 14, 2023' clearly indicates a calendar date — specifically the loan agreement execution date. This is a false positive for name detection.",
+        "signals": ["'May' matches common first name", "Followed by day and year — unambiguous date", "Legal document date reference", "Loan agreement timeline"],
+        "ruleBased": false,
+        "detectorNote": "Matched mock detection rule",
+        "threshold": 0.6,
+        "possibleRisk": "A loan agreement date has low standalone identification risk, though combined with the account number and debtor's name it is part of a uniquely identifying record."
+      },
+      "occurrenceGroup": "may_date_legal"
+    },
+    {
+      "id": "legal_span_09",
+      "text": "7834-2291-5567",
+      "startIndex": 889,
+      "endIndex": 903,
+      "type": "FINANCIAL_ACCOUNT",
+      "confidence": 0.92,
+      "decision": "redacted",
+      "isBorderline": false,
+      "reasoning": {
+        "summary": "This is a bank account number for the creditor's trust account, appearing in wire transfer instructions. Exposure would enable unauthorized wire transfers.",
+        "signals": ["Numeric account pattern", "Bank wire transfer context", "Preceded by 'Account:'", "Trust account for legal payments"],
+        "ruleBased": true,
+        "detectorNote": "Matched mock detection rule",
+        "threshold": 0.6,
+        "possibleRisk": "Bank account numbers combined with routing numbers are sufficient to initiate fraudulent ACH debits or wire transfers."
+      },
+      "occurrenceGroup": "bank_account_trust"
+    },
+    {
+      "id": "legal_span_10",
+      "text": "021000089",
+      "startIndex": 866,
+      "endIndex": 875,
+      "type": "FINANCIAL_ACCOUNT",
+      "confidence": 0.82,
+      "decision": "redacted",
+      "isBorderline": false,
+      "reasoning": {
+        "summary": "This is a bank routing number (ABA routing transit number), appearing in wire transfer instructions alongside the account number.",
+        "signals": ["9-digit number", "Preceded by 'Routing:' label", "Wire transfer instructions context", "ABA routing format"],
+        "ruleBased": true,
+        "detectorNote": "Matched mock detection rule",
+        "threshold": 0.6,
+        "possibleRisk": "A routing number alone identifies the bank but not an account. However, combined with the account number on the next line, it enables unauthorized financial transfers."
+      },
+      "occurrenceGroup": "routing_number"
+    },
+    {
+      "id": "legal_span_11",
+      "text": "029-44-7712",
+      "startIndex": 1013,
+      "endIndex": 1024,
+      "type": "SSN_OR_GOVT_ID",
+      "confidence": 0.99,
+      "decision": "redacted",
+      "isBorderline": false,
+      "reasoning": {
+        "summary": "This is the debtor's Social Security Number, explicitly labeled 'SSN on file:' in the account details section. Its presence in a debt collection letter significantly amplifies the document's sensitivity.",
+        "signals": ["SSN format XXX-XX-XXXX", "Preceded by 'SSN on file:' label", "Legal/financial document context", "Associated with named debtor"],
+        "ruleBased": true,
+        "detectorNote": "Matched mock detection rule",
+        "threshold": 0.6,
+        "possibleRisk": "An SSN in a demand letter that also contains the person's name, address, account numbers, and DOB represents a near-complete identity theft package."
+      },
+      "occurrenceGroup": "ssn_fitzgerald"
+    },
+    {
+      "id": "legal_span_12",
+      "text": "June 8, 1985",
+      "startIndex": 1040,
+      "endIndex": 1053,
+      "type": "DATE_OF_BIRTH",
+      "confidence": 0.87,
+      "decision": "redacted",
+      "isBorderline": false,
+      "reasoning": {
+        "summary": "This is the debtor's date of birth, explicitly labeled 'Date of Birth:' in the account details section of the demand letter.",
+        "signals": ["Full date format (Month Day, Year)", "Preceded by 'Date of Birth:' label", "Account verification context"],
+        "ruleBased": true,
+        "detectorNote": "Matched mock detection rule",
+        "threshold": 0.6,
+        "possibleRisk": "Date of birth combined with the SSN and full name already in this document creates a complete identity theft profile."
+      },
+      "occurrenceGroup": "dob_fitzgerald"
+    },
+    {
+      "id": "legal_span_13",
+      "text": "l.chen@chenlaw.com",
+      "startIndex": 1104,
+      "endIndex": 1122,
+      "type": "EMAIL",
+      "confidence": 0.96,
+      "decision": "redacted",
+      "isBorderline": false,
+      "reasoning": {
+        "summary": "This is the attorney's professional email address, containing both her initial and surname plus the firm domain.",
+        "signals": ["Standard email format", "Contains attorney name", "Law firm domain", "Contact section"],
+        "ruleBased": true,
+        "detectorNote": "Matched mock detection rule",
+        "threshold": 0.6,
+        "possibleRisk": "The attorney's email in a redacted demand letter could be used to impersonate the debtor's legal counsel or verify the existence of the legal action."
+      },
+      "occurrenceGroup": "email_chen"
+    },
+    {
+      "id": "legal_span_14",
+      "text": "Linda Chen",
+      "startIndex": 1353,
+      "endIndex": 1363,
+      "type": "PERSON_NAME",
+      "confidence": 0.89,
+      "decision": "redacted",
+      "isBorderline": false,
+      "reasoning": {
+        "summary": "This is the full name of the attorney who authored the demand letter, appearing in the signature block with professional credentials.",
+        "signals": ["First + Last name pattern", "Signature block position", "Followed by 'Esq.' designation", "Matches firm name 'Chen & Associates'"],
+        "ruleBased": true,
+        "detectorNote": "Matched mock detection rule",
+        "threshold": 0.6,
+        "possibleRisk": "The attorney's name links this specific lawyer to the debt collection case, and combined with bar number enables complete professional identification."
+      },
+      "occurrenceGroup": "linda_chen"
+    }
+  ]
+}

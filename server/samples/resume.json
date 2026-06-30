@@ -1,0 +1,255 @@
+{
+  "id": "sample-resume",
+  "title": "Professional Resume — Sarah Chen",
+  "description": "A software engineer's resume with personal contact details, education history, and employment information.",
+  "originalText": "SARAH CHEN\nSenior Software Engineer\n\n123 Maple Avenue, Apt 4B\nSan Francisco, CA 94107\n\nEmail: sarah.chen@gmail.com\nPhone: (415) 555-0192\nLinkedIn: linkedin.com/in/sarachen\n\nPROFESSIONAL SUMMARY\nExperienced software engineer with 8+ years building distributed systems. Previously led the backend team at Meridian Technologies, where I reported to Dr. Smith. Known for delivering scalable microservices and mentoring junior developers.\n\nEXPERIENCE\n\nSenior Software Engineer — Meridian Technologies\nJanuary 2019 – Present\n- Architected a real-time data pipeline processing 2M events/day\n- Managed a team of 6 engineers across San Francisco and Austin offices\n- Reduced infrastructure costs by 34% through containerization\n\nSoftware Engineer — Bloom Health Inc.\nMarch 2015 – December 2018\n- Built HIPAA-compliant patient portal serving 50,000+ users\n- Integrated with insurance provider APIs (Aetna, Blue Cross)\n- SSN verification module for identity confirmation (SSN: 478-93-2156)\n\nEDUCATION\nB.S. Computer Science — Stanford University, 2014\nDate of Birth: March 15, 1992\n\nREFERENCES\nAvailable upon request. Contact Sarah Chen at sarah.chen@gmail.com or call (415) 555-0192.\n\nGenerated from IP: 192.168.1.42",
+  "spans": [
+    {
+      "id": "resume_span_01",
+      "text": "SARAH CHEN",
+      "startIndex": 0,
+      "endIndex": 10,
+      "type": "PERSON_NAME",
+      "confidence": 0.94,
+      "decision": "redacted",
+      "isBorderline": false,
+      "reasoning": {
+        "summary": "This is a full personal name appearing as the document header, strongly indicating it is the document subject's real identity.",
+        "signals": ["Full name pattern (FIRST LAST)", "Document header position", "Repeated elsewhere in document"],
+        "ruleBased": true,
+        "detectorNote": "Matched mock detection rule",
+        "threshold": 0.6,
+        "possibleRisk": "Full name can be combined with other details in this resume (address, phone, SSN) to fully identify and impersonate this individual."
+      },
+      "occurrenceGroup": "sarah_chen"
+    },
+    {
+      "id": "resume_span_02",
+      "text": "123 Maple Avenue, Apt 4B\nSan Francisco, CA 94107",
+      "startIndex": 37,
+      "endIndex": 87,
+      "type": "ADDRESS",
+      "confidence": 0.91,
+      "decision": "redacted",
+      "isBorderline": false,
+      "reasoning": {
+        "summary": "This is a complete residential address spanning two lines, including street, apartment number, city, state, and ZIP code.",
+        "signals": ["Street number + street name pattern", "Apartment designator", "City, State ZIP format", "Multi-line address block"],
+        "ruleBased": true,
+        "detectorNote": "Matched mock detection rule",
+        "threshold": 0.6,
+        "possibleRisk": "A full residential address enables physical tracking, unwanted contact, or stalking when combined with the person's name."
+      },
+      "occurrenceGroup": "address_main"
+    },
+    {
+      "id": "resume_span_03",
+      "text": "sarah.chen@gmail.com",
+      "startIndex": 96,
+      "endIndex": 116,
+      "type": "EMAIL",
+      "confidence": 0.97,
+      "decision": "redacted",
+      "isBorderline": false,
+      "reasoning": {
+        "summary": "This is a personal email address in standard format, directly tied to the document subject by name.",
+        "signals": ["Standard email format (user@domain)", "Contains personal name", "Appears in contact section"],
+        "ruleBased": true,
+        "detectorNote": "Matched mock detection rule",
+        "threshold": 0.6,
+        "possibleRisk": "Email addresses enable unsolicited contact, phishing attacks, and can be used to look up other accounts and personal data online."
+      },
+      "occurrenceGroup": "email_sarah"
+    },
+    {
+      "id": "resume_span_04",
+      "text": "(415) 555-0192",
+      "startIndex": 124,
+      "endIndex": 138,
+      "type": "PHONE",
+      "confidence": 0.95,
+      "decision": "redacted",
+      "isBorderline": false,
+      "reasoning": {
+        "summary": "This is a US phone number in standard parenthetical area code format, listed in the contact section of the resume.",
+        "signals": ["US phone format (XXX) XXX-XXXX", "Contact section context", "Area code 415 = San Francisco"],
+        "ruleBased": true,
+        "detectorNote": "Matched mock detection rule",
+        "threshold": 0.6,
+        "possibleRisk": "Phone numbers enable unwanted calls, SMS phishing, SIM swapping attacks, and can be used to verify identity on other platforms."
+      },
+      "occurrenceGroup": "phone_sarah"
+    },
+    {
+      "id": "resume_span_05",
+      "text": "Meridian Technologies",
+      "startIndex": 271,
+      "endIndex": 292,
+      "type": "ORG",
+      "confidence": 0.52,
+      "decision": "kept",
+      "isBorderline": true,
+      "reasoning": {
+        "summary": "This appears to be a company name. While it could indirectly identify the document subject through employment history, organization names are generally not classified as direct PII and fall below the redaction threshold.",
+        "signals": ["Company name pattern", "Employment context", "Not a direct personal identifier"],
+        "ruleBased": false,
+        "detectorNote": "Matched mock detection rule",
+        "threshold": 0.6,
+        "possibleRisk": "Combined with a job title and date range, an employer name could narrow down identity to a very small group of people."
+      },
+      "occurrenceGroup": "meridian_tech"
+    },
+    {
+      "id": "resume_span_06",
+      "text": "Dr. Smith",
+      "startIndex": 318,
+      "endIndex": 327,
+      "type": "PERSON_NAME",
+      "confidence": 0.48,
+      "decision": "kept",
+      "isBorderline": true,
+      "reasoning": {
+        "summary": "This looks like a person's name due to the 'Dr.' title, but 'Smith' is extremely common and appears here as a passing reference to a supervisor, not as a primary subject of the document. Kept visible as a near-miss.",
+        "signals": ["Title + surname pattern", "Very common surname", "Third-party reference, not document subject", "No additional identifying details provided"],
+        "ruleBased": false,
+        "detectorNote": "Matched mock detection rule",
+        "threshold": 0.6,
+        "possibleRisk": "Minimal direct risk — 'Dr. Smith' without a first name, institution, or specialty is too generic to identify anyone specific."
+      },
+      "occurrenceGroup": "dr_smith"
+    },
+    {
+      "id": "resume_span_07",
+      "text": "Bloom Health Inc.",
+      "startIndex": 476,
+      "endIndex": 493,
+      "type": "ORG",
+      "confidence": 0.55,
+      "decision": "kept",
+      "isBorderline": true,
+      "reasoning": {
+        "summary": "This is a company name in the employment section. Like Meridian Technologies, it is an organizational identifier rather than direct PII, though it contributes to a profile that could narrow down the person's identity.",
+        "signals": ["Company name with 'Inc.' suffix", "Employment history context", "Health sector — sensitive industry"],
+        "ruleBased": false,
+        "detectorNote": "Matched mock detection rule",
+        "threshold": 0.6,
+        "possibleRisk": "Employment at a health company combined with the date range and other resume details could significantly narrow identity."
+      },
+      "occurrenceGroup": "bloom_health"
+    },
+    {
+      "id": "resume_span_08",
+      "text": "478-93-2156",
+      "startIndex": 634,
+      "endIndex": 645,
+      "type": "SSN_OR_GOVT_ID",
+      "confidence": 0.99,
+      "decision": "redacted",
+      "isBorderline": false,
+      "reasoning": {
+        "summary": "This matches the pattern of a US Social Security Number (XXX-XX-XXXX) and appears in the context of identity verification. SSNs are among the highest-risk PII categories.",
+        "signals": ["SSN format XXX-XX-XXXX", "Preceded by 'SSN:' label", "Identity verification context"],
+        "ruleBased": true,
+        "detectorNote": "Matched mock detection rule",
+        "threshold": 0.6,
+        "possibleRisk": "A Social Security Number is the single most dangerous piece of PII to expose — it enables identity theft, fraudulent credit applications, tax fraud, and is nearly impossible to change once compromised."
+      },
+      "occurrenceGroup": "ssn_sarah"
+    },
+    {
+      "id": "resume_span_09",
+      "text": "March 15, 1992",
+      "startIndex": 679,
+      "endIndex": 693,
+      "type": "DATE_OF_BIRTH",
+      "confidence": 0.88,
+      "decision": "redacted",
+      "isBorderline": false,
+      "reasoning": {
+        "summary": "This date appears immediately after a 'Date of Birth:' label, confirming it is the document subject's birthdate rather than an arbitrary date.",
+        "signals": ["Full date format (Month Day, Year)", "Preceded by 'Date of Birth:' label", "Plausible birth year for the education timeline"],
+        "ruleBased": true,
+        "detectorNote": "Matched mock detection rule",
+        "threshold": 0.6,
+        "possibleRisk": "Date of birth is a key identity verification factor used by banks, insurers, and government agencies — combined with name and SSN, it completes the identity theft trifecta."
+      },
+      "occurrenceGroup": "dob_sarah"
+    },
+    {
+      "id": "resume_span_10",
+      "text": "Sarah Chen",
+      "startIndex": 730,
+      "endIndex": 740,
+      "type": "PERSON_NAME",
+      "confidence": 0.92,
+      "decision": "redacted",
+      "isBorderline": false,
+      "reasoning": {
+        "summary": "This is a second occurrence of the document subject's full name, appearing in the references section. Same person as the header name.",
+        "signals": ["Full name pattern", "Matches header name exactly", "References section context"],
+        "ruleBased": true,
+        "detectorNote": "Matched mock detection rule",
+        "threshold": 0.6,
+        "possibleRisk": "Full name can be combined with other details in this resume (address, phone, SSN) to fully identify and impersonate this individual."
+      },
+      "occurrenceGroup": "sarah_chen"
+    },
+    {
+      "id": "resume_span_11",
+      "text": "sarah.chen@gmail.com",
+      "startIndex": 744,
+      "endIndex": 764,
+      "type": "EMAIL",
+      "confidence": 0.97,
+      "decision": "redacted",
+      "isBorderline": false,
+      "reasoning": {
+        "summary": "This is the second occurrence of the document subject's personal email address, appearing in the references section.",
+        "signals": ["Standard email format", "Matches earlier occurrence exactly", "Contact context"],
+        "ruleBased": true,
+        "detectorNote": "Matched mock detection rule",
+        "threshold": 0.6,
+        "possibleRisk": "Email addresses enable unsolicited contact, phishing attacks, and can be used to look up other accounts and personal data online."
+      },
+      "occurrenceGroup": "email_sarah"
+    },
+    {
+      "id": "resume_span_12",
+      "text": "(415) 555-0192",
+      "startIndex": 773,
+      "endIndex": 787,
+      "type": "PHONE",
+      "confidence": 0.95,
+      "decision": "redacted",
+      "isBorderline": false,
+      "reasoning": {
+        "summary": "This is the second occurrence of the document subject's phone number, appearing in the references section.",
+        "signals": ["US phone format", "Matches earlier occurrence exactly", "References contact context"],
+        "ruleBased": true,
+        "detectorNote": "Matched mock detection rule",
+        "threshold": 0.6,
+        "possibleRisk": "Phone numbers enable unwanted calls, SMS phishing, SIM swapping attacks, and can be used to verify identity on other platforms."
+      },
+      "occurrenceGroup": "phone_sarah"
+    },
+    {
+      "id": "resume_span_13",
+      "text": "192.168.1.42",
+      "startIndex": 809,
+      "endIndex": 821,
+      "type": "IP_ADDRESS",
+      "confidence": null,
+      "decision": "kept",
+      "isBorderline": false,
+      "reasoning": {
+        "summary": "This matches an IPv4 address pattern, but 192.168.x.x is a private/local network range that cannot identify a person on the public internet. Confidence is unavailable because the detection was pattern-only with no contextual confirmation.",
+        "signals": ["IPv4 format match", "Private IP range (192.168.x.x)", "No public attribution possible"],
+        "ruleBased": true,
+        "detectorNote": "Matched mock detection rule",
+        "threshold": 0.6,
+        "possibleRisk": "Private IP addresses pose virtually no identification risk on their own, unlike public IPs which can approximate geographic location."
+      },
+      "occurrenceGroup": "ip_local"
+    }
+  ]
+}
