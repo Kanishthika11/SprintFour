@@ -248,24 +248,17 @@ export function AuditLogSidebar({ document: doc }: AuditLogSidebarProps) {
             key={f}
             onClick={() => setFilter(f)}
             style={{
-              padding: "3px 8px",
-              fontSize: 10,
-              fontWeight: filter === f ? 600 : 400,
-              backgroundColor:
-                filter === f ? "var(--accent-primary-subtle)" : "transparent",
-              color:
-                filter === f
-                  ? "var(--accent-primary)"
-                  : "var(--text-secondary)",
-              border:
-                filter === f
-                  ? "1px solid var(--accent-primary)"
-                  : "1px solid var(--border-default)",
-              borderRadius: "var(--radius-sm)",
+              padding: "6px 14px",
+              fontSize: "12px",
+              fontWeight: filter === f ? 700 : 500,
+              backgroundColor: filter === f ? "#0d9488" : "transparent",
+              color: filter === f ? "#ffffff" : "var(--text-secondary)",
+              border: filter === f ? "1px solid #0d9488" : "1px solid var(--border-default)",
+              borderRadius: "0px",
               cursor: "pointer",
-              fontFamily: "var(--font-ui)",
+              fontFamily: "'Plus Jakarta Sans', sans-serif",
               textTransform: "capitalize",
-              transition: "all 0.1s ease",
+              transition: "all 0.15s ease",
             }}
           >
             {f}
